@@ -20,4 +20,15 @@ $params = [
 $config = new Configuration();
 $connection = DriverManager::getConnection($params, $config);
 
-var_dump($connection);
+$filter = '';
+$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+if ($id) {
+    $filter = " where id = {$id}";
+}
+
+$sql = "SELECT * FROM users{$filter}";
+$result = $connection->query($sql);
+
+while($row = $result->fetch()) {
+    echo $row['name'] . '<br/>';
+}
