@@ -12,9 +12,9 @@ use Doctrine\ORM\Mapping\Table;
 #[Table(name: "users")]
 class User
 {
-    #[Id, Column(type: "integer"), GeneratedValue(strategy: "IDENTITY")]
+    #[Id, Column(type: "integer"), GeneratedValue(strategy: "IDENTITY"), ColumnDefini]
     private int $id;
-    #[Id, Column(type: "string")]
+    #[Column(type: "string")]
     private string $name;
 
     public function getId(): int
