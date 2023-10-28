@@ -2,7 +2,7 @@
     "name": "dmarques/doctrine",
     "autoload": {
         "psr-4": {
-            "Treinaweb\\Doctrine\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
