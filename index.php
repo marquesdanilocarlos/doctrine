@@ -26,8 +26,10 @@ if ($id) {
     $filter = " where id = {$id}";
 }
 
-$sql = "SELECT * FROM users{$filter}";
-$result = $connection->query($sql);
+$sql = "SELECT * FROM users where id = :id";
+$result = $connection->prepare($sql);
+$result->bindValue(':id', $id);
+$result = $result->execute();
 
 while($row = $result->fetch()) {
     echo $row['name'] . '<br/>';
