@@ -22,15 +22,20 @@ $connection = DriverManager::getConnection($params, $config);
 
 $filter = '';
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+$queryBuilder = $connection->createQueryBuilder();
+$queryBuilder
+    ->select('name')
+    ->from('users');
+
 if ($id) {
-    $filter = " where id = {$id}";
+    $queryBuilder
+        ->where('id = :id')
+        ->setParameter('id', $id);
 }
 
-$sql = "SELECT * FROM users where id = :id";
-$result = $connection->prepare($sql);
-$result->bindValue(':id', $id);
-$result = $result->execute();
+$result = $queryBuilder->execute();
 
-while($row = $result->fetch()) {
+while ($row = $result->fetch()) {
     echo $row['name'] . '<br/>';
 }
