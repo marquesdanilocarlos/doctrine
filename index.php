@@ -2,6 +2,8 @@
 
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 
 require __DIR__ . "/vendor/autoload.php";
 
@@ -20,22 +22,21 @@ $params = [
 $config = new Configuration();
 $connection = DriverManager::getConnection($params, $config);
 
-$filter = '';
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+$schema = new Schema();
 
-$queryBuilder = $connection->createQueryBuilder();
-$queryBuilder
-    ->select('name')
-    ->from('users');
+$articleTable = $schema->createTable('articles');
+$articleTable->addColumn('id', 'integer', ['unsigned' => true]);
+$articleTable->addColumn('subject', 'string', ['length' => 100]);
+$articleTable->addColumn('content', 'text');
+$articleTable->setPrimaryKey(['id']);
 
-if ($id) {
-    $queryBuilder
-        ->where('id = :id')
-        ->setParameter('id', $id);
-}
+$articleTable->addColumn('user_id', 'integer');
+$articleTable->addForeignKeyConstraint('user', ['user_id'], ['id']);
 
-$result = $queryBuilder->execute();
+$queries = $schema->toSql(new MySQLPlatform());
+var_dump($queries);
+exit;
 
-while ($row = $result->fetch()) {
-    echo $row['name'] . '<br/>';
+foreach ($queries as $query) {
+    $connection->query($query);
 }
