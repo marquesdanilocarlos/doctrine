@@ -11,13 +11,16 @@ class EntityManagerCreator
 
     public static function createEntityManager(): EntityManager
     {
-        $path = __DIR__."/src/Entities";
+        $path = [__DIR__."/../Entities"];
         $isDevMode = true;
 
-        $config = ORMSetup::createAttributeMetadataConfiguration([
+        $config = ORMSetup::createAttributeMetadataConfiguration(
             $path,
-            $isDevMode
-        ]);
+            $isDevMode,
+            null,
+            null,
+            false
+        );
 
         $dbParams = [
             'dbname' => 'doctrine',

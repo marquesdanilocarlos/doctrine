@@ -18,6 +18,19 @@ class User
     #[Column(type: "string")]
     private string $name;
 
+    #[Column(type: "string")]
+    private string $address;
+
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
     public function getId(): int
     {
         return $this->id;
