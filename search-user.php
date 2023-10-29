@@ -2,6 +2,7 @@
 
 use App\Entities\User;
 use App\Helper\EntityManagerCreator;
+use App\Repositories\UserRepository;
 
 require __DIR__ . "/vendor/autoload.php";
 
@@ -27,6 +28,11 @@ $qb->select('u')
 
 $queryDql = $qb->getQuery();
 $allUsers = $queryDql->getResult();
+
+//var_dump($allUsers);
+
+$repository = $em->getRepository($userEntity);
+$allUsers = $repository->getAllUsers($_GET['num'] ?? 0);
 
 var_dump($allUsers);
 

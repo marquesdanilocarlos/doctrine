@@ -2,17 +2,18 @@
 
 namespace App\Entities;
 
+use App\Repositories\UserRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 
-#[Entity]
+#[Entity(repositoryClass: UserRepository::class, readOnly: false)]
 #[Table(name: "users")]
 class User
 {
-    #[Id, Column(type: "integer"), GeneratedValue(strategy: "IDENTITY"), ColumnDefini]
+    #[Id, Column(type: "integer"), GeneratedValue(strategy: "IDENTITY")]
     private int $id;
     #[Column(type: "string")]
     private string $name;
