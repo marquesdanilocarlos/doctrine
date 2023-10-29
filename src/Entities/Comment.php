@@ -19,7 +19,7 @@ class Comment
     #[Column(type: "text")]
     private string $message;
 
-    #[ManyToOne(targetEntity: Post::class)]
+    #[ManyToOne(targetEntity: Post::class, inversedBy: "comments")]
     private Post $post;
 
     public function getId(): int

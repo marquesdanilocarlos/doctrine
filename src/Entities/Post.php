@@ -6,12 +6,15 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\PersistentCollection;
 
 #[Entity]
 #[Table(name: "posts")]
 class Post
 {
+
     #[Id, Column(type: "integer"), GeneratedValue(strategy: "IDENTITY")]
     private int $id;
     #[Column(type: "string")]
@@ -19,6 +22,9 @@ class Post
 
     #[Column(type: "text")]
     private string $content;
+
+    #[OneToMany(targetEntity: Comment::class, mappedBy: "post")]
+    private PersistentCollection $comments;
 
     public function getId(): int
     {
@@ -45,4 +51,14 @@ class Post
         $this->content = $content;
     }
 
+    public function getComments(): PersistentCollection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment)
+    {
+        $comment->setPost($this);
+        $this->comments->add($comment);
+    }
 }
