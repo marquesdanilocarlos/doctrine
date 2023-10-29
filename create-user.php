@@ -7,8 +7,13 @@ require __DIR__ . "/vendor/autoload.php";
 
 $em = EntityManagerCreator::createEntityManager();
 
+
 $user = new User();
-$user->setName("Carlitos");
+$user->setName("Joventino");
 
 $em->persist($user);
+
+//var_dump($em->getUnitOfWork()->getEntityState($user));
+//exit;
+
 $em->flush();
