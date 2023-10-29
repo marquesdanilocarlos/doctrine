@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\PersistentCollection;
@@ -25,6 +26,9 @@ class Post
 
     #[OneToMany(targetEntity: Comment::class, mappedBy: "post")]
     private PersistentCollection $comments;
+
+    #[ManyToMany(targetEntity: Category::class)]
+    private PersistentCollection $categories;
 
     public function getId(): int
     {
@@ -60,5 +64,20 @@ class Post
     {
         $comment->setPost($this);
         $this->comments->add($comment);
+    }
+
+    public function getCategories(): PersistentCollection
+    {
+        return $this->categories;
+    }
+
+    public function setCategories(PersistentCollection $categories)
+    {
+        $this->categories = $categories;
+    }
+
+    public function addCategory(Category $category): void
+    {
+        $this->categories->add($category);
     }
 }
