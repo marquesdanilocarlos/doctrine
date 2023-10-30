@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToMany;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\PersistentCollection;
 
@@ -29,6 +30,9 @@ class Post
 
     #[ManyToMany(targetEntity: Category::class)]
     private PersistentCollection $categories;
+
+    #[OneToOne(targetEntity: Detail::class)]
+    private Detail $detail;
 
     public function getId(): int
     {
@@ -79,5 +83,15 @@ class Post
     public function addCategory(Category $category): void
     {
         $this->categories->add($category);
+    }
+
+    public function getDetail(): Detail
+    {
+        return $this->detail;
+    }
+
+    public function setDetail(Detail $detail): void
+    {
+        $this->detail = $detail;
     }
 }
